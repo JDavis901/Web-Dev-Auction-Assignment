@@ -1,18 +1,21 @@
-const create_account = (req, res) =>{
-    return res.sendStatus(500);
-}
+require('../../database'); 
 
-const login = (req, res) =>{
-    return res.sendStatus(500);
-}
+const Users = require('../models/user.server.models'); // <-- add this
 
-const logout = (req, res) =>{
+const create_account = (req, res) => {
     return res.sendStatus(500);
-}
+};
 
+const login = (req, res) => {
+    return res.sendStatus(500);
+};
+
+const logout = (req, res) => {
+    return res.sendStatus(500);
+};
 
 module.exports = {
-    create_account: create_account,
-    login: login,
-    logout: logout,
-}
+    create_account,
+    login,
+    logout
+};
