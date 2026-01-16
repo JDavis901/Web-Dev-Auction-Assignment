@@ -1,4 +1,4 @@
-const Questions = require('../models/question.server.models'); 
+const Questions = require("../models/question.server.models"); 
 
 
 const ask_question = (req, res) => res.sendStatus(500);

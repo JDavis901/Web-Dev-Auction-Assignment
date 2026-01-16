@@ -1,4 +1,4 @@
-const db = require('../../database');
+const db = require("../../database");
 
 const searchItems = (done) => {
     db.all(`SELECT * FROM items`, [], (err, rows) => {
@@ -8,7 +8,7 @@ const searchItems = (done) => {
 };
 
 const getItemById = (id, done) => {
-    db.get(`SELECT * FROM items WHERE item_id = ?`, [id], (err, row) => {
+    db.get("SELECT * FROM items WHERE item_id = ?", [id], (err, row) => {
         if (err) return done(err);
         return done(null, row);
     });

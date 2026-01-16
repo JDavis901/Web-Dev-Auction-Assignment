@@ -1,14 +1,15 @@
 const users = require("../controllers/user.server.controllers")
+const auth = require("../lib/authentication")
 
 module.exports = function(app){
-    app.route("/users")
+    app.route("/user")
         .post(users.create_user);
 
     app.route("/login")
         .post(users.login);
 
     app.route("/logout")
-        .post(users.logout);
+        .post(auth.authenticate, users.logout);
 
 
   // app.route("/user_id")
