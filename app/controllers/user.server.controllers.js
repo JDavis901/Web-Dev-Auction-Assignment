@@ -1,6 +1,6 @@
 const Joi = require("joi");
-
 const Users = require("../models/user.server.models");
+const Core = require("../models/core.server.models");
 
 const addUserSchema = Joi.object({
   first_name: Joi.string().required(),
@@ -15,8 +15,54 @@ const addLoginSchema = Joi.object({
 }).unknown(false);
 
 
+const createItem = (req, res) => {
+  if (!req.user || !req.user.user_id){
+    return res.sendStatus(401);
+  }
+
+
+  const {error, value} = addItemSchema.validate(req.body);
+  if(error){
+    return res.status(400).send({
+      error_message: error.details[0].message
+    })
+  }
+ 
+
+  if (value.name.trim() === "" || value.description.trim() === ""){
+    return res.status(400).send({error_message: "name and description cant be blank"});
+  }
+
+  if(value.starting_bid <=0){return res.status(400).send({error_message: "starting_bid has to be positive"})};
+
+  const currentDate =  new Date();
+  const finishDate = new Date(value.end_date);
+
+  if (finishDate <= currentDate) {
+    return res.status(400).send({error_message: "end_date has to be in the future"});
+  }
+
+
+  const itemToInsert = {
+    name: value.name,
+    description: value.description,
+    starting_bid: value.starting_bid,
+    start_date: currentDate.toISOString(),
+    end_date: finishDate.toISOString(),
+    creator_id: req.user.user_id
+  };
+
+  Core.insertItem(itemToInsert, (err, item_id)=> {
+    if (err) return res.sendStatus(500);
+    return res.status(201).send({item_id});
+  })
+}
+                                   ///this needs finishing
+
+
+
 const create_user = (req, res) => {
-  const { error, value } = addUserSchema.validate(req.body);
+  const {error, value} = addUserSchema.validate(req.body);
 
   if (error) {
     return res.status(400).send({
@@ -74,6 +120,7 @@ const login = (req, res) => {
 
   const logout = (req, res) => {
     const token = req.get("X-Authorization");
+    
     if (!token) return res.sendStatus(401);
 
     Users.removeToken(token, (err)=> {
@@ -90,5 +137,6 @@ const login = (req, res) => {
     create_user,
     login,
     logout,
+    createItem
     //   get_user_by_id     
   };

@@ -4,7 +4,7 @@ const auth = require("../lib/authentication");
 module.exports = (app) => {
   app.get("/search", core.search);
 
-  app.post("/item", auth.authenticate, core.create_item);
+  app.post("/item", auth.authenticate, core.createItem);
 
   app.get("/item/:item_id", core.get_item_by_id);
 

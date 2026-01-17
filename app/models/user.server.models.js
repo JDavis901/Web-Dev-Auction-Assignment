@@ -79,12 +79,16 @@ const getUserByToken = (token, done) =>
     return done(null,row);                  
   });
 };
+
+
 const getUserByEmail = (email, done) => {
     db.get("SELECT * FROM users WHERE email = ?", [email], (err, row) => {
         if (err) return done(err);
         return done(null, row);
     });
 };
+
+
 
 
 
