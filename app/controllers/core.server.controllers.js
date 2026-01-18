@@ -62,8 +62,19 @@ const createItem = (req, res) => {
 
 
 
+const get_Item_By_id = (req, res)=>{
+  const id = req.params.item_id;
 
-const get_item_by_id = (req, res) => res.sendStatus(500);
+  Core.getItemById(id, (err, item)=> 
+    {
+    if (err) return res.sendStatus(500);
+    if (!item) return res.sendStatus(404);
+
+    return res.status(200).send(item);
+  })
+}
+
+
 const add_bid = (req, res) => res.sendStatus(500);
 const get_bid_history = (req, res) => res.sendStatus(500);
 
@@ -72,7 +83,7 @@ const get_bid_history = (req, res) => res.sendStatus(500);
 module.exports = {
     search,
     createItem,
-    get_item_by_id,
+    get_Item_By_id,
     add_bid,
     get_bid_history
 };

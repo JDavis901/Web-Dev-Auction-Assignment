@@ -88,8 +88,18 @@ const getUserByEmail = (email, done) => {
     });
 };
 
+const getUserById = (id, done) => {
+    const sql ="SELECT user_id, first_name, last_name FROM users WHERE user_id =?";
+    db.get(sql, [id], (err, row)=> {
+        if (err) return done(err);
+        if (!row) return done(null, null);
+        return done(null, row);
+
+    })     
+}
 
 
 
 
-module.exports = {insertUser, getUserByEmail, authenticateUser, setToken, removeToken, getToken, getUserByToken};
+
+module.exports = {insertUser, getUserByEmail, authenticateUser, setToken, removeToken, getToken, getUserByToken, getUserById};

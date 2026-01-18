@@ -6,7 +6,7 @@ module.exports = (app) => {
 
   app.post("/item", auth.authenticate, core.createItem);
 
-  app.get("/item/:item_id", core.get_item_by_id);
+  app.get("/item/:item_id", core.get_Item_By_id);
 
   app.post("/item/:item_id/bid", auth.authenticate, core.add_bid);
 
